@@ -1,1 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor de Ocorrências - SIPACEA IV</title>
+    <link rel="stylesheet" href="style.css"> <!-- Seu CSS existente -->
+    <style>
+        /* Estilos específicos para o monitor, se necessário */
+        #monitor-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        #tabela-monitor {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        #tabela-monitor th, #tabela-monitor td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        #tabela-monitor th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .atualizacao {
+            color: #666;
+            font-size: 12px;
+            margin-top: 10px;
+            text-align: right;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Seu cabeçalho existente -->
+        <h1>SIPACEA IV - Monitor de Ocorrências</h1>
+        <nav>
+            <!-- Links de navegação -->
+            <a href="index.html">Início</a>
+            <a href="guia.html">Guias</a>
+        </nav>
+    </header>
 
+    <main>
+        <div id="monitor-container">
+            <h2>Ocorrências em Tempo Real</h2>
+            <div id="status-monitor">
+                <span>Última atualização: <span id="timestamp">Aguardando...</span></span>
+            </div>
+            <div style="overflow-x: auto;">
+                <table id="tabela-monitor">
+                    <thead>
+                        <tr>
+                            <!-- Defina aqui os cabeçalhos que correspondem à sua planilha -->
+                            <th>ID</th>
+                            <th>Data</th>
+                            <th>Local</th>
+                            <th>Descrição</th>
+                            <th>Status</th>
+                            <th>Responsável</th>
+                            <!-- Adicione mais colunas conforme necessário -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="6" class="loading">Carregando dados...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="atualizacao">
+                Dados atualizados a cada 5 segundos.
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Seu rodapé existente -->
+        <p>&copy; 2026 SIPACEA IV</p>
+    </footer>
+
+    <!-- Adicione o JavaScript -->
+    <script src="monitor.js"></script>
+    <!-- Se o monitor.js estiver na raiz, senão ajuste o caminho -->
+</body>
+</html>
