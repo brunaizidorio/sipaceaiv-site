@@ -4,24 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>SIPACEA IV - Portal da Segurança Operacional do CINDACTA IV</title>
 
+    <!-- Estilos -->
     <link rel="stylesheet" href="style.css">
 
+    <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- Ícones -->
     <script src="https://kit.fontawesome.com/6b2d8d6d6d.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
-    <!-- Cabeçalho -->
+    <!-- ====== CABEÇALHO ====== -->
     <header>
-        <div class="container">
+        <div class="container header-container">
             <h1>SIPACEA IV</h1>
-
             <nav>
                 <a href="#inicio">Início</a>
                 <a href="#documentos">Documentos</a>
@@ -32,218 +33,141 @@
         </div>
     </header>
 
-    <!-- Hero -->
+    <!-- ====== HERO ====== -->
     <section class="hero" id="inicio">
         <div class="hero-content">
             <h2>Portal da Segurança Operacional</h2>
+            <p>Sistema de apoio às atividades da Segurança Operacional do SIPACEA IV.</p>
+            <a class="btn btn-primary" href="#assistentes">Acessar Portal</a>
+        </div>
+    </section>
 
-            <p>
-                Sistema de apoio às atividades da Segurança Operacional do SIPACEA IV.
-            </p>
+    <!-- ====== BIBLIOTECA DE DOCUMENTOS ====== -->
+    <section id="documentos" class="section">
+        <div class="container">
+            <h2 class="section-title">Biblioteca de Documentos</h2>
+            <div class="cards-grid">
 
-            <a class="btn" href="#assistentes">
-                Acessar Portal
+                <div class="card">
+                    <i class="fas fa-book card-icon"></i>
+                    <h3>ICA 81-1</h3>
+                    <p>Ocorrências de Tráfego Aéreo.</p>
+                    <a class="btn-menu" href="Ica-81-1.pdf" target="_blank">Abrir</a>
+                </div>
+
+                <div class="card">
+                    <i class="fas fa-file-alt card-icon"></i>
+                    <h3>MCA 81-4</h3>
+                    <p>Manual de Gerenciamento da Segurança Operacional do SISCEAB.</p>
+                    <a class="btn-menu" href="mca-81-4.pdf" target="_blank">Abrir</a>
+                </div>
+
+                <div class="card">
+                    <i class="fas fa-shield-alt card-icon"></i>
+                    <h3>MGSO</h3>
+                    <p>Manual de Gerenciamento da Segurança Operacional do CINDACTA IV.</p>
+                    <a class="btn-menu" href="Manual-de-Gerenciamento-de-Segurança-Operacional.pdf" target="_blank">Abrir</a>
+                </div>
+
+                <div class="card">
+                    <i class="fas fa-download card-icon"></i>
+                    <h3>Downloads</h3>
+                    <p>Modelos e formulários.</p>
+                    <a class="btn-menu" href="documentos/">Abrir</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== PAINEL OPERACIONAL ====== -->
+    <section id="painel" class="section bg-light">
+        <div class="container text-center">
+            <h2 class="section-title">Painel Operacional</h2>
+            <p>Resumo em tempo real dos principais indicadores da Segurança Operacional.</p>
+            <a href="painel.html" class="btn btn-primary">
+                <i class="fas fa-chart-pie"></i> Abrir Dashboard Completo
             </a>
         </div>
     </section>
 
-    <!-- Biblioteca -->
-    <section id="documentos">
+    <!-- ====== GUIA ====== -->
+    <section id="guia" class="section">
+        <div class="container">
+            <h2 class="section-title">Guia</h2>
+            <div class="cards-grid">
 
-        <h2>Biblioteca de Documentos</h2>
-
-        <div class="cards">
-
-            <div class="card">
-                <i class="fas fa-book"></i>
-                <h3>ICA 81-1</h3>
-                <p>Ocorrências de Tráfego Aéreo.</p>
-
-                <a class="btn-menu" href="Ica-81-1.pdf" target="_blank">
-                    Abrir
-                </a>
-            </div>
-
-            <div class="card">
-                <i class="fas fa-file-alt"></i>
-                <h3>MCA 81-4</h3>
-                <p>Manual de Gerenciamento da Segurança Operacional do SISCEAB.</p>
-
-                <a class="btn-menu" href="mca-81-4.pdf" target="_blank">
-                    Abrir
-                </a>
-            </div>
-
-            <div class="card">
-                <i class="fas fa-shield-alt"></i>
-                <h3>MGSO</h3>
-                <p>Manual de Gerenciamento da Segurança Operacional do CINDACTA IV.</p>
-
-                <a class="btn-menu"
-                    href="Manual-de-Gerenciamento-de-Segurança-Operacional.pdf"
-                    target="_blank">
-                    Abrir
-                </a>
-            </div>
-
-            <div class="card">
-                <i class="fas fa-download"></i>
-                <h3>Downloads</h3>
-                <p>Modelos e formulários.</p>
-
-                <a class="btn-menu" href="documentos/">
-                    Abrir
-                </a>
-            </div>
-
-        </div>
-
-    </section>
-
-    <section id="painel">
-
-<h2>Painel Operacional</h2>
-
-<p>
-Resumo em tempo real dos principais indicadores da Segurança Operacional.
-</p>
-
-<a href="painel.html" class="btn">
-<i class="fas fa-chart-pie"></i>
-Abrir Dashboard Completo
-</a>
-
-</section>
-
-    <!-- Guia -->
-    <section id="guia">
-
-        <h2>Guia</h2>
-
-        <div class="cards">
-
-            <div class="card">
-
-                <i class="fas fa-compass"></i>
-
-                <h3>Guia Interativo de Segurança Operacional</h3>
-
-                <p>
-                    Ferramenta dinâmica para orientar o efetivo operacional
-                    no gerenciamento da Segurança Operacional.
-                </p>
-
-                <a class="btn-menu" href="guia.html">
-                    Abrir
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- Assistentes -->
-    <section class="cinza" id="assistentes">
-
-        <h2>Assistentes de Reporte</h2>
-
-        <div class="cards">
-
-            <div class="card">
-                <i class="fas fa-bed"></i>
-                <h3>Fadiga</h3>
-
-                <p>
-                    Assistente para elaboração de reportes de fadiga.
-                </p>
-
-                <a class="btn-menu" href="paginas/fadiga.html">
-                    Abrir
-                </a>
-            </div>
-
-            <div class="card">
-                <i class="fas fa-file-signature"></i>
-                <h3>RELPREV</h3>
-
-                <p>
-                    Assistente para elaboração do RELPREV.
-                </p>
-
-                <a class="btn-menu" href="paginas/relprev.html">
-                    Abrir
-                </a>
-            </div>
-
-            <div class="card">
-                <i class="fas fa-book-open"></i>
-
-                <h3>LHD</h3>
-
-                <p>
-                    Assistente para preenchimento do Livro Histórico Diário.
-                </p>
-
-                <a class="btn-menu" href="paginas/lhd.html">
-                    Abrir
-                </a>
-            </div>
-
-            <div class="card">
-                <i class="fas fa-exclamation-triangle"></i>
-
-                <h3>FNO</h3>
-
-                <p>
-                    Assistente para registro da Ficha de Notificação de Ocorrência.
-                </p>
-
-                <a class="btn-menu" href="paginas/fno.html">
-                    Abrir
-                </a>
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- Avisos -->
-    <section id="avisos">
-
-        <h2>Avisos</h2>
-
-        <div class="card">
-
-            <i class="fas fa-bullhorn"></i>
-
-            <div class="timeline">
-
-                <div>
-
-                    <h3>Atualizações</h3>
-
-                    <p>
-                        Espaço destinado às últimas publicações.<br>
-                        O portal encontra-se em desenvolvimento e receberá
-                        novas funcionalidades em breve.
-                    </p>
-
+                <div class="card card-center">
+                    <i class="fas fa-compass card-icon"></i>
+                    <h3>Guia Interativo de Segurança Operacional</h3>
+                    <p>Ferramenta dinâmica para orientar o efetivo operacional no gerenciamento da Segurança Operacional.</p>
+                    <a class="btn-menu" href="guia.html">Abrir</a>
                 </div>
 
             </div>
-
         </div>
-
     </section>
 
-    <!-- Rodapé -->
+    <!-- ====== ASSISTENTES DE REPORTE ====== -->
+    <section id="assistentes" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Assistentes de Reporte</h2>
+            <div class="cards-grid">
+
+                <div class="card">
+                    <i class="fas fa-bed card-icon"></i>
+                    <h3>Fadiga</h3>
+                    <p>Assistente para elaboração de reportes de fadiga.</p>
+                    <a class="btn-menu" href="paginas/fadiga.html">Abrir</a>
+                </div>
+
+                <div class="card">
+                    <i class="fas fa-file-signature card-icon"></i>
+                    <h3>RELPREV</h3>
+                    <p>Assistente para elaboração do RELPREV.</p>
+                    <a class="btn-menu" href="paginas/relprev.html">Abrir</a>
+                </div>
+
+                <div class="card">
+                    <i class="fas fa-book-open card-icon"></i>
+                    <h3>LHD</h3>
+                    <p>Assistente para preenchimento do Livro Histórico Diário.</p>
+                    <a class="btn-menu" href="paginas/lhd.html">Abrir</a>
+                </div>
+
+                <div class="card">
+                    <i class="fas fa-exclamation-triangle card-icon"></i>
+                    <h3>FNO</h3>
+                    <p>Assistente para registro da Ficha de Notificação de Ocorrência.</p>
+                    <a class="btn-menu" href="paginas/fno.html">Abrir</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== AVISOS ====== -->
+    <section id="avisos" class="section">
+        <div class="container">
+            <h2 class="section-title">Avisos</h2>
+            <div class="card card-highlight">
+                <i class="fas fa-bullhorn card-icon card-icon-large"></i>
+                <div class="timeline">
+                    <h3>Atualizações</h3>
+                    <p>
+                        Espaço destinado às últimas publicações.<br>
+                        O portal encontra-se em desenvolvimento e receberá novas funcionalidades em breve.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== RODAPÉ ====== -->
     <footer>
-
-        <p>
-            Elaborado pela SIPACEA IV © 2026
-        </p>
-
+        <div class="container footer-container">
+            <p>Elaborado pela SIPACEA IV © 2026</p>
+        </div>
     </footer>
 
 </body>
