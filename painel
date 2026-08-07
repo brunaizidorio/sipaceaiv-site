@@ -1,0 +1,368 @@
+!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Ocorrências - CINDACTA IV</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        fab: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#005bb5',
+                            600: '#004996',
+                            800: '#0a2540',
+                            900: '#07182b',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js and DataLabels Plugin CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col">
+
+    <!-- Header de Navegação / Topbar -->
+    <header class="border-b border-slate-800 bg-slate-900/90 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20 border border-blue-400/30">
+                    <i class="fa-solid fa-plane-departure text-xl text-white"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-blue-400 font-semibold tracking-wider uppercase">Força Aérea Brasileira</span>
+                    </div>
+                    <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+                        CINDACTA IV
+                        <span class="text-xs font-normal text-slate-400 hidden sm:inline-block">| SIPACEA IV</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Controles do Topbar -->
+            <div class="flex items-center gap-3">
+                <div class="hidden md:flex flex-col items-end mr-2 text-right">
+                    <span class="text-xs text-slate-400 flex items-center gap-1.5">
+                        <span id="status-dot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span id="atualizacao">Carregando dados...</span>
+                    </span>
+                    <span class="text-[10px] text-slate-500">Auto-atualização a cada 5 min</span>
+                </div>
+                
+                <button id="atualizar" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all shadow-md hover:shadow-blue-500/25 active:scale-95 cursor-pointer">
+                    <i id="icone-atualizar" class="fa-solid fa-rotate"></i>
+                    <span class="hidden sm:inline">Atualizar Dados</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        
+        <!-- Seção de Indicadores Principais (KPIs) -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            
+            <!-- Card 1: Total FNO -->
+            <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden group hover:border-blue-500/50 transition-all duration-300">
+                <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-500/10 rounded-full blur-xl group-hover:bg-blue-500/20 transition-all"></div>
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-semibold text-blue-400 tracking-wider uppercase">Ficha de Ocorrência</span>
+                    <div class="p-2 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                        <i class="fa-solid fa-file-triangle text-lg"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span id="total-fno" class="text-4xl font-extrabold text-white tracking-tight">—</span>
+                </div>
+                <p class="mt-2 text-xs text-slate-400">Total de FNO Registradas</p>
+            </div>
+
+            <!-- Card 2: Total RELPREV -->
+            <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden group hover:border-amber-500/50 transition-all duration-300">
+                <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-amber-500/10 rounded-full blur-xl group-hover:bg-amber-500/20 transition-all"></div>
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-semibold text-amber-400 tracking-wider uppercase">Relatório de Prevenção</span>
+                    <div class="p-2 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        <i class="fa-solid fa-shield-halved text-lg"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span id="total-relprev" class="text-4xl font-extrabold text-white tracking-tight">—</span>
+                </div>
+                <p class="mt-2 text-xs text-slate-400">Total de RELPREV Emitidos</p>
+            </div>
+
+            <!-- Card 3: Classe FNO Mais Frequente -->
+            <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden group hover:border-purple-500/50 transition-all duration-300">
+                <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-purple-500/10 rounded-full blur-xl group-hover:bg-purple-500/20 transition-all"></div>
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-semibold text-purple-400 tracking-wider uppercase">Classe Predominante</span>
+                    <div class="p-2 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                        <i class="fa-solid fa-layer-group text-lg"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span id="classe-fno" class="text-2xl font-bold text-white tracking-tight truncate block">—</span>
+                </div>
+                <p class="mt-2 text-xs text-slate-400">Classe mais frequente nas FNO</p>
+            </div>
+
+            <!-- Card 4: Quantidade na Classe FNO -->
+            <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden group hover:border-emerald-500/50 transition-all duration-300">
+                <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl group-hover:bg-emerald-500/20 transition-all"></div>
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-semibold text-emerald-400 tracking-wider uppercase">Ocorrências na Classe</span>
+                    <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        <i class="fa-solid fa-chart-line text-lg"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span id="quantidade-classe" class="text-4xl font-extrabold text-white tracking-tight">—</span>
+                </div>
+                <p class="mt-2 text-xs text-slate-400">Quantidade de ocorrências da classe</p>
+            </div>
+        </section>
+
+        <!-- Seção de Análise Gráfica -->
+        <section class="grid grid-cols-1 gap-6">
+            <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 flex flex-col items-center">
+                <div class="w-full flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-chart-pie text-blue-400"></i>
+                            Proporção de Ocorrências (FNO vs RELPREV)
+                        </h2>
+                        <p class="text-xs text-slate-400">Distribuição comparativa direta entre tipos registrados</p>
+                    </div>
+                </div>
+                
+                <!-- Área do Gráfico de Rosca -->
+                <div class="relative w-full max-w-md h-80 flex items-center justify-center">
+                    <canvas id="graficoProporcao"></canvas>
+                </div>
+
+                <!-- Resumo Permanente sem passar o mouse -->
+                <div class="grid grid-cols-2 gap-4 w-full max-w-md mt-6 pt-4 border-t border-slate-800/80 text-center">
+                    <div class="bg-slate-950/50 border border-blue-500/30 rounded-xl p-3">
+                        <div class="flex items-center justify-center gap-2 mb-1">
+                            <span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span>
+                            <span class="text-xs font-bold text-slate-300">FNO</span>
+                        </div>
+                        <span id="valor-visivel-fno" class="text-lg font-extrabold text-blue-400">0 (0%)</span>
+                    </div>
+
+                    <div class="bg-slate-950/50 border border-amber-500/30 rounded-xl p-3">
+                        <div class="flex items-center justify-center gap-2 mb-1">
+                            <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+                            <span class="text-xs font-bold text-slate-300">RELPREV</span>
+                        </div>
+                        <span id="valor-visivel-relprev" class="text-lg font-extrabold text-amber-400">0 (0%)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Rodapé da Aplicação -->
+    <footer class="border-t border-slate-800/80 bg-slate-950 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+            <p>SISTEMA DE ACOMPANHAMENTO DE OCORRÊNCIAS - CINDACTA IV / SIPACEA IV</p>
+            <p class="mt-1">Conexão direta com planilha de dados via Google Sheets CSV.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Registrar o plugin DataLabels no Chart.js para manter valores sempre visíveis
+        Chart.register(ChartDataLabels);
+
+        const urlPlanilha = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSX7s4aSmpcMzQZp6m3bASQkjLZjXG337Fsc9SwUbA6j5Fqj4ifgdL5g8KsWpZB1Oi1M2PAW9V40O5x/pub?gid=0&single=true&output=csv";
+
+        let graficoInstancia = null;
+
+        function interpretarCSV(texto) {
+            return texto
+                .trim()
+                .split(/\r?\n/)
+                .map(linha => linha.split(",").map(campo =>
+                    campo.replace(/^"|"$/g, "").trim()
+                ));
+        }
+
+        function inicializarGrafico() {
+            const ctx = document.getElementById("graficoProporcao").getContext("2d");
+            
+            graficoInstancia = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['FNO', 'RELPREV'],
+                    datasets: [{
+                        data: [0, 0],
+                        backgroundColor: ['#3b82f6', '#f59e0b'],
+                        borderColor: ['#1d4ed8', '#d97706'],
+                        borderWidth: 2,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                color: '#94a3b8',
+                                font: { family: 'Inter', size: 12, weight: 'bold' },
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        },
+                        tooltip: {
+                            enabled: true
+                        },
+                        // Plugin para manter os valores aparentes diretamente nas fatias do gráfico
+                        datalabels: {
+                            color: '#ffffff',
+                            font: {
+                                family: 'Inter',
+                                weight: 'bold',
+                                size: 13
+                            },
+                            formatter: (value, ctx) => {
+                                let sum = 0;
+                                let dataArr = ctx.chart.data.datasets[0].data;
+                                dataArr.map(data => {
+                                    sum += Number(data);
+                                });
+                                if (sum === 0 || value === 0) return '';
+                                let percentage = (value * 100 / sum).toFixed(1) + "%";
+                                return `${value}\n(${percentage})`;
+                            },
+                            textAlign: 'center'
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        async function carregarDados() {
+            const atualizacao = document.getElementById("atualizacao");
+            const statusDot = document.getElementById("status-dot");
+            const iconeAtualizar = document.getElementById("icone-atualizar");
+
+            atualizacao.textContent = "Atualizando dados...";
+            statusDot.className = "w-2 h-2 rounded-full bg-amber-500 animate-ping";
+            iconeAtualizar.classList.add("fa-spin");
+
+            try {
+                const resposta = await fetch(urlPlanilha + "&t=" + Date.now());
+                
+                if (!resposta.ok) {
+                    throw new Error("Não foi possível acessar a planilha.");
+                }
+
+                const texto = await resposta.text();
+                const linhas = interpretarCSV(texto);
+
+                // Índices informados das colunas reais da planilha
+                const COLUNA_TIPO = 2;          // FNO ou RELPREV
+                const COLUNA_CLASSIFICACAO = 4; // Classe da ocorrência
+
+                const dados = linhas.slice(1).filter(linha => linha[COLUNA_TIPO]);
+
+                const fno = dados.filter(linha =>
+                    linha[COLUNA_TIPO] && linha[COLUNA_TIPO].toUpperCase().trim() === "FNO"
+                );
+
+                const relprev = dados.filter(linha =>
+                    linha[COLUNA_TIPO] && linha[COLUNA_TIPO].toUpperCase().trim() === "RELPREV"
+                );
+
+                const frequencias = {};
+
+                fno.forEach(linha => {
+                    const classe = linha[COLUNA_CLASSIFICACAO] || "Não classificada";
+                    frequencias[classe] = (frequencias[classe] || 0) + 1;
+                });
+
+                const classeMaisFrequente = Object.entries(frequencias)
+                    .sort((a, b) => b[1] - a[1])[0];
+
+                const totalFnoQtd = fno.length;
+                const totalRelprevQtd = relprev.length;
+                const totalGeral = totalFnoQtd + totalRelprevQtd;
+
+                // Atualizar Cards KPI
+                document.getElementById("total-fno").textContent = totalFnoQtd;
+                document.getElementById("total-relprev").textContent = totalRelprevQtd;
+
+                if (classeMaisFrequente) {
+                    document.getElementById("classe-fno").textContent = classeMaisFrequente[0];
+                    document.getElementById("quantidade-classe").textContent = classeMaisFrequente[1];
+                } else {
+                    document.getElementById("classe-fno").textContent = "—";
+                    document.getElementById("quantidade-classe").textContent = "0";
+                }
+
+                // Atualizar Gráfico
+                if (graficoInstancia) {
+                    graficoInstancia.data.datasets[0].data = [totalFnoQtd, totalRelprevQtd];
+                    graficoInstancia.update();
+                }
+
+                // Atualizar Resumo Abaixo do Gráfico (Aparente sem passar o mouse)
+                const pctFno = totalGeral > 0 ? ((totalFnoQtd / totalGeral) * 100).toFixed(1) : "0.0";
+                const pctRelprev = totalGeral > 0 ? ((totalRelprevQtd / totalGeral) * 100).toFixed(1) : "0.0";
+
+                document.getElementById("valor-visivel-fno").textContent = `${totalFnoQtd} (${pctFno}%)`;
+                document.getElementById("valor-visivel-relprev").textContent = `${totalRelprevQtd} (${pctRelprev}%)`;
+
+                const horario = new Date().toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                atualizacao.textContent = `Sincronizado às ${horario}`;
+                statusDot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
+
+            } catch (erro) {
+                console.error("Erro ao carregar os dados:", erro);
+                atualizacao.textContent = "Aviso: Exibindo modelo estático";
+                statusDot.className = "w-2 h-2 rounded-full bg-amber-500";
+            } finally {
+                iconeAtualizar.classList.remove("fa-spin");
+            }
+        }
+
+        // Inicialização
+        window.addEventListener('DOMContentLoaded', () => {
+            inicializarGrafico();
+            carregarDados();
+
+            // Configurar botão manual e temporizador automático (5 min)
+            document.getElementById("atualizar").addEventListener("click", carregarDados);
+            setInterval(carregarDados, 5 * 60 * 1000);
+        });
+    </script>
+</body>
+</html>
