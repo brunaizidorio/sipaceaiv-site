@@ -1,109 +1,900 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIPACEA IV - Portal da Segurança Operacional do CINDACTA IV</title>
 
-    <!-- Estilos -->
-    <link rel="stylesheet" href="style.css">
-
     <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Ícones -->
     <script src="https://kit.fontawesome.com/6b2d8d6d6d.js" crossorigin="anonymous"></script>
+
+    <style>
+        /* ========== RESET E VARIÁVEIS ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Cores principais */
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #60a5fa;
+            --primary-gradient: linear-gradient(135deg, #2563eb, #7c3aed);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+
+            /* Tempo claro */
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f1f5f9;
+            --bg-hero: linear-gradient(135deg, #0f172a, #1e293b);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+            --header-bg: rgba(255, 255, 255, 0.85);
+            --footer-bg: #0f172a;
+            --footer-text: #e2e8f0;
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --bg-card-hover: #2d3a4f;
+            --bg-hero: linear-gradient(135deg, #020617, #0f172a);
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --border-color: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+            --header-bg: rgba(15, 23, 42, 0.9);
+            --footer-bg: #020617;
+            --footer-text: #94a3b8;
+        }
+
+        /* ========== ESTILOS GERAIS ========== */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ========== SCROLLBAR PREMIUM ========== */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-body);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ========== HEADER ========== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--header-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 72px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-badge {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: var(--bg-card);
+            padding: 2px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            -webkit-text-fill-color: var(--text-muted);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+            background: var(--bg-card-hover);
+        }
+
+        /* ========== TEMA TOGGLE ========== */
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 18px;
+            transition: all 0.3s ease;
+            margin-left: 8px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-card-hover);
+            color: var(--primary);
+            transform: rotate(20deg);
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            min-height: 100vh;
+            background: var(--bg-hero);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+            animation: heroGlow 10s ease-in-out infinite;
+        }
+
+        @keyframes heroGlow {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(-20%, -20%) scale(1.2);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.2);
+            color: var(--primary-light);
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(37, 99, 235, 0.2);
+        }
+
+        .hero h2 {
+            font-size: clamp(40px, 8vw, 72px);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero h2 span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #94a3b8;
+            margin-bottom: 36px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ========== BOTÕES ========== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.45);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary-light);
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-menu {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .btn-menu:hover {
+            background: var(--primary);
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+        }
+
+        /* ========== SEÇÕES ========== */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.08);
+            padding: 4px 16px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 18px;
+            margin-top: 12px;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .bg-light {
+            background: var(--bg-card-hover);
+        }
+
+        /* ========== CARDS GRID ========== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 32px 28px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .card-icon-large {
+            font-size: 48px;
+        }
+
+        .card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .card-center {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ========== PAINEL ========== */
+        .painel-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        /* ========== AVISOS ========== */
+        .card-highlight {
+            border: 2px solid var(--primary);
+            background: var(--bg-card);
+        }
+
+        .card-highlight .card-icon {
+            color: var(--warning);
+        }
+
+        .timeline {
+            padding-left: 0;
+        }
+
+        .timeline h3 {
+            color: var(--text-primary);
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .timeline p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: var(--footer-bg);
+            padding: 32px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        footer p {
+            color: var(--footer-text);
+            font-size: 14px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: var(--footer-text);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-light);
+        }
+
+        /* ========== RESPONSIVIDADE ========== */
+        @media (max-width: 1024px) {
+            .cards-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                height: 64px;
+            }
+
+            nav a {
+                display: none;
+            }
+
+            nav a:first-of-type {
+                display: inline-block;
+            }
+
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+
+            .hero {
+                padding: 100px 20px 60px;
+                min-height: 80vh;
+            }
+
+            .hero h2 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .section {
+                padding: 56px 0;
+            }
+
+            .section-header {
+                margin-bottom: 40px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .painel-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .painel-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .stat-number {
+                font-size: 28px;
+            }
+        }
+
+        /* ========== MOBILE MENU ========== */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+
+            .mobile-nav {
+                display: none;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: var(--bg-card);
+                border-bottom: 1px solid var(--border-color);
+                padding: 16px 24px;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .mobile-nav.open {
+                display: flex;
+            }
+
+            .mobile-nav a {
+                display: block;
+                padding: 12px 16px;
+                border-radius: 8px;
+                color: var(--text-secondary);
+                text-decoration: none;
+                font-weight: 500;
+                transition: all 0.2s ease;
+            }
+
+            .mobile-nav a:hover {
+                background: var(--bg-card-hover);
+                color: var(--primary);
+            }
+        }
+
+        /* ========== ANIMAÇÕES ========== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
+        .delay-4 {
+            animation-delay: 0.4s;
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- ====== CABEÇALHO ====== -->
+    <!-- ====== HEADER ====== -->
     <header>
         <div class="container header-container">
-            <h1>SIPACEA IV</h1>
+            <div class="header-left">
+                <span class="logo">SIPACEA IV</span>
+                <span class="logo-badge">v2.0</span>
+            </div>
+
             <nav>
                 <a href="#inicio">Início</a>
                 <a href="#documentos">Documentos</a>
                 <a href="#guia">Guia</a>
                 <a href="#assistentes">Assistentes</a>
                 <a href="#avisos">Avisos</a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
             </nav>
+        </div>
+
+        <!-- Mobile Nav -->
+        <div class="mobile-nav" id="mobileNav">
+            <a href="#inicio">Início</a>
+            <a href="#documentos">Documentos</a>
+            <a href="#guia">Guia</a>
+            <a href="#assistentes">Assistentes</a>
+            <a href="#avisos">Avisos</a>
         </div>
     </header>
 
     <!-- ====== HERO ====== -->
     <section class="hero" id="inicio">
         <div class="hero-content">
-            <h2>Portal da Segurança Operacional</h2>
-            <p>Sistema de apoio às atividades da Segurança Operacional do SIPACEA IV.</p>
-            <a class="btn btn-primary" href="#assistentes">Acessar Portal</a>
+            <span class="hero-badge">
+                <i class="fas fa-shield-alt"></i> Segurança Operacional
+            </span>
+            <h2>
+                Portal da <span>Segurança</span> Operacional
+            </h2>
+            <p>
+                Sistema de apoio às atividades da Segurança Operacional do SIPACEA IV.
+                Ferramentas integradas para gestão eficiente e segura.
+            </p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" href="#assistentes">
+                    <i class="fas fa-rocket"></i> Acessar Portal
+                </a>
+                <a class="btn btn-outline" href="#documentos">
+                    <i class="fas fa-book"></i> Documentos
+                </a>
+            </div>
         </div>
     </section>
 
     <!-- ====== BIBLIOTECA DE DOCUMENTOS ====== -->
     <section id="documentos" class="section">
         <div class="container">
-            <h2 class="section-title">Biblioteca de Documentos</h2>
-            <div class="cards-grid">
+            <div class="section-header">
+                <span class="section-tag">Biblioteca</span>
+                <h2 class="section-title">Documentos Oficiais</h2>
+                <p class="section-subtitle">Acesse os principais manuais e normativos da segurança operacional.</p>
+            </div>
 
-                <div class="card">
+            <div class="cards-grid">
+                <div class="card fade-in delay-1">
                     <i class="fas fa-book card-icon"></i>
                     <h3>ICA 81-1</h3>
                     <p>Ocorrências de Tráfego Aéreo.</p>
-                    <a class="btn-menu" href="Ica-81-1.pdf" target="_blank">Abrir</a>
+                    <a class="btn-menu" href="Ica-81-1.pdf" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Abrir
+                    </a>
                 </div>
 
-                <div class="card">
+                <div class="card fade-in delay-2">
                     <i class="fas fa-file-alt card-icon"></i>
                     <h3>MCA 81-4</h3>
                     <p>Manual de Gerenciamento da Segurança Operacional do SISCEAB.</p>
-                    <a class="btn-menu" href="mca-81-4.pdf" target="_blank">Abrir</a>
+                    <a class="btn-menu" href="mca-81-4.pdf" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Abrir
+                    </a>
                 </div>
 
-                <div class="card">
+                <div class="card fade-in delay-3">
                     <i class="fas fa-shield-alt card-icon"></i>
                     <h3>MGSO</h3>
                     <p>Manual de Gerenciamento da Segurança Operacional do CINDACTA IV.</p>
-                    <a class="btn-menu" href="Manual-de-Gerenciamento-de-Segurança-Operacional.pdf" target="_blank">Abrir</a>
+                    <a class="btn-menu" href="Manual-de-Gerenciamento-de-Segurança-Operacional.pdf" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Abrir
+                    </a>
                 </div>
 
-                <div class="card">
+                <div class="card fade-in delay-4">
                     <i class="fas fa-download card-icon"></i>
                     <h3>Downloads</h3>
-                    <p>Modelos e formulários.</p>
-                    <a class="btn-menu" href="documentos/">Abrir</a>
+                    <p>Modelos e formulários para download.</p>
+                    <a class="btn-menu" href="documentos/">
+                        <i class="fas fa-folder-open"></i> Abrir
+                    </a>
                 </div>
-
             </div>
         </div>
     </section>
 
     <!-- ====== PAINEL OPERACIONAL ====== -->
     <section id="painel" class="section bg-light">
-        <div class="container text-center">
-            <h2 class="section-title">Painel Operacional</h2>
-            <p>Resumo em tempo real dos principais indicadores da Segurança Operacional.</p>
-            <a href="painel.html" class="btn btn-primary">
-                <i class="fas fa-chart-pie"></i> Abrir Dashboard Completo
-            </a>
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-chart-line"></i> Indicadores</span>
+                <h2 class="section-title">Painel Operacional</h2>
+                <p class="section-subtitle">Resumo em tempo real dos principais indicadores da Segurança Operacional.</p>
+            </div>
+
+            <div class="painel-stats">
+                <div class="stat-card fade-in delay-1">
+                    <div class="stat-number">1.247</div>
+                    <div class="stat-label">Total de Ocorrências</div>
+                </div>
+                <div class="stat-card fade-in delay-2">
+                    <div class="stat-number">94.7%</div>
+                    <div class="stat-label">Taxa de Resolução</div>
+                </div>
+                <div class="stat-card fade-in delay-3">
+                    <div class="stat-number">32</div>
+                    <div class="stat-label">Dias sem Acidentes</div>
+                </div>
+                <div class="stat-card fade-in delay-4">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Conformidade</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="painel.html" class="btn btn-primary">
+                    <i class="fas fa-chart-pie"></i> Dashboard Completo
+                </a>
+            </div>
         </div>
     </section>
 
     <!-- ====== GUIA ====== -->
     <section id="guia" class="section">
         <div class="container">
-            <h2 class="section-title">Guia</h2>
-            <div class="cards-grid">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-compass"></i> Orientação</span>
+                <h2 class="section-title">Guia Interativo</h2>
+                <p class="section-subtitle">Ferramenta dinâmica para orientar o efetivo operacional no gerenciamento da Segurança Operacional.</p>
+            </div>
 
-                <div class="card card-center">
-                    <i class="fas fa-compass card-icon"></i>
+            <div class="cards-grid" style="max-width: 600px; margin: 0 auto;">
+                <div class="card card-center fade-in">
+                    <i class="fas fa-compass card-icon card-icon-large"></i>
                     <h3>Guia Interativo de Segurança Operacional</h3>
-                    <p>Ferramenta dinâmica para orientar o efetivo operacional no gerenciamento da Segurança Operacional.</p>
-                    <a class="btn-menu" href="guia.html">Abrir</a>
+                    <p>Navegue pelo guia completo e tenha acesso a todas as orientações necessárias.</p>
+                    <a class="btn-menu" href="guia.html">
+                        <i class="fas fa-play"></i> Iniciar Guia
+                    </a>
                 </div>
-
             </div>
         </div>
     </section>
@@ -111,37 +902,48 @@
     <!-- ====== ASSISTENTES DE REPORTE ====== -->
     <section id="assistentes" class="section bg-light">
         <div class="container">
-            <h2 class="section-title">Assistentes de Reporte</h2>
-            <div class="cards-grid">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-robot"></i> Assistentes</span>
+                <h2 class="section-title">Assistentes de Reporte</h2>
+                <p class="section-subtitle">Ferramentas inteligentes para elaboração de relatórios e notificações.</p>
+            </div>
 
-                <div class="card">
+            <div class="cards-grid">
+                <div class="card fade-in delay-1">
                     <i class="fas fa-bed card-icon"></i>
                     <h3>Fadiga</h3>
                     <p>Assistente para elaboração de reportes de fadiga.</p>
-                    <a class="btn-menu" href="paginas/fadiga.html">Abrir</a>
+                    <a class="btn-menu" href="paginas/fadiga.html">
+                        <i class="fas fa-arrow-right"></i> Abrir
+                    </a>
                 </div>
 
-                <div class="card">
+                <div class="card fade-in delay-2">
                     <i class="fas fa-file-signature card-icon"></i>
                     <h3>RELPREV</h3>
                     <p>Assistente para elaboração do RELPREV.</p>
-                    <a class="btn-menu" href="paginas/relprev.html">Abrir</a>
+                    <a class="btn-menu" href="paginas/relprev.html">
+                        <i class="fas fa-arrow-right"></i> Abrir
+                    </a>
                 </div>
 
-                <div class="card">
+                <div class="card fade-in delay-3">
                     <i class="fas fa-book-open card-icon"></i>
                     <h3>LHD</h3>
                     <p>Assistente para preenchimento do Livro Histórico Diário.</p>
-                    <a class="btn-menu" href="paginas/lhd.html">Abrir</a>
+                    <a class="btn-menu" href="paginas/lhd.html">
+                        <i class="fas fa-arrow-right"></i> Abrir
+                    </a>
                 </div>
 
-                <div class="card">
+                <div class="card fade-in delay-4">
                     <i class="fas fa-exclamation-triangle card-icon"></i>
                     <h3>FNO</h3>
                     <p>Assistente para registro da Ficha de Notificação de Ocorrência.</p>
-                    <a class="btn-menu" href="paginas/fno.html">Abrir</a>
+                    <a class="btn-menu" href="paginas/fno.html">
+                        <i class="fas fa-arrow-right"></i> Abrir
+                    </a>
                 </div>
-
             </div>
         </div>
     </section>
@@ -149,27 +951,111 @@
     <!-- ====== AVISOS ====== -->
     <section id="avisos" class="section">
         <div class="container">
-            <h2 class="section-title">Avisos</h2>
-            <div class="card card-highlight">
-                <i class="fas fa-bullhorn card-icon card-icon-large"></i>
-                <div class="timeline">
-                    <h3>Atualizações</h3>
-                    <p>
-                        Espaço destinado às últimas publicações.<br>
-                        O portal encontra-se em desenvolvimento e receberá novas funcionalidades em breve.
-                    </p>
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-bullhorn"></i> Comunicação</span>
+                <h2 class="section-title">Avisos e Atualizações</h2>
+                <p class="section-subtitle">Fique por dentro das últimas publicações e novidades do portal.</p>
+            </div>
+
+            <div class="card card-highlight fade-in" style="max-width: 800px; margin: 0 auto;">
+                <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;">
+                    <i class="fas fa-bullhorn card-icon card-icon-large" style="color: var(--warning);"></i>
+                    <div class="timeline" style="flex: 1;">
+                        <h3>📢 Atualizações do Portal</h3>
+                        <p>
+                            <strong>04/04/2026</strong> - Nova interface disponível com modo escuro e melhorias de usabilidade.<br>
+                            <strong>02/04/2026</strong> - Adicionados novos assistentes de reporte.<br>
+                            <strong>30/03/2026</strong> - Biblioteca de documentos atualizada.
+                        </p>
+                        <p style="margin-top: 12px; color: var(--text-muted); font-size: 14px;">
+                            <i class="fas fa-info-circle"></i> O portal encontra-se em desenvolvimento contínuo e receberá novas funcionalidades em breve.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ====== RODAPÉ ====== -->
+    <!-- ====== FOOTER ====== -->
     <footer>
         <div class="container footer-container">
-            <p>Elaborado pela SIPACEA IV © 2026</p>
+            <p>
+                <i class="fas fa-shield-alt" style="color: var(--primary-light);"></i>
+                Elaborado pela SIPACEA IV © 2026
+            </p>
+            <div class="footer-links">
+                <a href="#inicio">Início</a>
+                <a href="#documentos">Documentos</a>
+                <a href="#assistentes">Assistentes</a>
+                <a href="#avisos">Avisos</a>
+            </div>
         </div>
     </footer>
 
-</body>
+    <!-- ====== SCRIPTS ====== -->
+    <script>
+        // ====== TEMA ESCURO/CLARO ======
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const icon = themeToggle.querySelector('i');
 
-</html>
+        // Carregar tema salvo
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+
+        // ====== MOBILE MENU ======
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        let mobileOpen = false;
+
+        mobileBtn.addEventListener('click', () => {
+            mobileOpen = !mobileOpen;
+            mobileNav.classList.toggle('open', mobileOpen);
+            mobileBtn.querySelector('i').className = mobileOpen ? 'fas fa-times' : 'fas fa-bars';
+        });
+
+        // Fechar menu ao clicar em um link
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileOpen = false;
+                mobileNav.classList.remove('open');
+                mobileBtn.querySelector('i').className = 'fas fa-bars';
+            });
+        });
+
+        // ====== ANIMAÇÃO DE SCROLL ======
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(el);
+        });
+
+        // ====== DADOS DINÂMICOS
