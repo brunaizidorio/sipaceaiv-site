@@ -188,18 +188,19 @@
 
         /* Theme Toggle Button */
         .theme-toggle-btn {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid var(--border-color);
+            background: var(--cyan-glow);
+            border: 1px solid var(--border-glow);
             color: var(--text-main);
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
+            padding: 6px 14px;
+            height: 38px;
+            border-radius: 20px;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
+            gap: 8px;
             cursor: pointer;
             transition: var(--transition);
-            font-size: 1.1rem;
+            font-size: 0.82rem;
+            font-weight: 600;
             flex-shrink: 0;
         }
 
@@ -207,7 +208,7 @@
             background: var(--cyan);
             color: #000;
             border-color: var(--cyan);
-            transform: scale(1.05);
+            transform: scale(1.03);
             box-shadow: 0 0 15px var(--cyan-glow);
         }
 
@@ -639,6 +640,7 @@
                 <!-- Mobile & Desktop Theme Toggle -->
                 <button class="theme-toggle-btn" id="theme-toggle" aria-label="Alternar tema claro/escuro" title="Alternar Modo Claro/Escuro">
                     <i class="fas fa-sun"></i>
+                    <span id="theme-text">Modo Escuro</span>
                 </button>
             </div>
 
@@ -883,8 +885,14 @@
             localStorage.setItem('theme', theme);
             
             const btnIcon = document.querySelector('#theme-toggle i');
-            if (btnIcon) {
-                btnIcon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+            const btnText = document.getElementById('theme-text');
+            
+            if (theme === 'light') {
+                if (btnIcon) btnIcon.className = 'fas fa-moon';
+                if (btnText) btnText.textContent = 'Modo Claro';
+            } else {
+                if (btnIcon) btnIcon.className = 'fas fa-sun';
+                if (btnText) btnText.textContent = 'Modo Escuro';
             }
         }
 
