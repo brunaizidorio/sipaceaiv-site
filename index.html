@@ -4,63 +4,657 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>SIPACEA IV - Portal da Segurança Operacional do CINDACTA IV</title>
 
     <link rel="stylesheet" href="style.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <script src="https://kit.fontawesome.com/6b2d8d6d6d.js" crossorigin="anonymous"></script>
+
+    <style>
+        /* ===== RESET E VARIÁVEIS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0a1628;
+            --primary-light: #1a2a4a;
+            --accent: #2563eb;
+            --accent-light: #3b82f6;
+            --accent-gradient: linear-gradient(135deg, #2563eb, #7c3aed);
+            --gold: #d4a853;
+            --bg-body: #f5f7fa;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f0f2f5;
+            --bg-header: rgba(255, 255, 255, 0.95);
+            --bg-hero: linear-gradient(135deg, #0a1628 0%, #1a2a4a 100%);
+            --text-primary: #0a1628;
+            --text-secondary: #4a5568;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--bg-header);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            height: 70px;
+            display: flex;
+            align-items: center;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        header h1 {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        header nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        header nav a:hover {
+            color: var(--accent);
+            background: var(--bg-card-hover);
+        }
+
+        header nav a.active {
+            color: var(--accent);
+            background: rgba(37, 99, 235, 0.08);
+        }
+
+        .nav-painel {
+            background: var(--accent-gradient);
+            color: #ffffff !important;
+            padding: 8px 20px !important;
+            border-radius: 10px !important;
+            font-weight: 600 !important;
+            margin-left: 4px;
+        }
+
+        .nav-painel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+            color: #ffffff !important;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            background: var(--bg-hero);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
+            animation: glow 10s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(-10%, -10%) scale(1.1);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.15);
+            color: var(--gold);
+            padding: 6px 24px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(37, 99, 235, 0.15);
+        }
+
+        .hero h2 {
+            font-size: clamp(36px, 7vw, 64px);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero h2 span {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 36px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        /* ===== BOTÕES ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent-light);
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .btn-menu {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            color: var(--accent);
+            background: rgba(37, 99, 235, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .btn-menu:hover {
+            background: var(--accent);
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        /* ===== SEÇÕES ===== */
+        section {
+            padding: 80px 0;
+        }
+
+        section h2 {
+            font-size: 32px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 18px;
+            margin-bottom: 48px;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .bg-light {
+            background: var(--bg-card-hover);
+        }
+
+        /* ===== CARDS ===== */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 32px 28px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card i {
+            font-size: 32px;
+            color: var(--accent);
+            margin-bottom: 16px;
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.08);
+            padding: 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover i {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        .card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .card-center {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== PAINEL ===== */
+        #painel {
+            text-align: center;
+        }
+
+        #painel .btn {
+            margin-top: 8px;
+        }
+
+        .painel-stats {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 32px 48px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            min-width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent);
+        }
+
+        .stat-number {
+            font-size: 44px;
+            font-weight: 900;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        /* ===== AVISOS ===== */
+        .card-highlight {
+            border: 2px solid transparent;
+            background-image: linear-gradient(var(--bg-card), var(--bg-card)), var(--accent-gradient);
+            background-origin: padding-box, border-box;
+            background-clip: padding-box, border-box;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card-highlight i {
+            color: var(--gold);
+            background: rgba(212, 168, 83, 0.12);
+        }
+
+        .card-highlight:hover i {
+            background: linear-gradient(135deg, #d4a853, #f0d080);
+            color: #ffffff;
+        }
+
+        .timeline {
+            padding: 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 14px;
+            white-space: nowrap;
+            min-width: 90px;
+        }
+
+        .timeline-text {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--primary);
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+
+        footer p i {
+            color: var(--gold);
+            margin-right: 8px;
+        }
+
+        /* ===== RESPONSIVO ===== */
+        @media (max-width: 768px) {
+            header .container {
+                flex-wrap: wrap;
+                padding: 0 16px;
+            }
+
+            header nav {
+                gap: 2px;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+
+            header nav a {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            .nav-painel {
+                padding: 6px 14px !important;
+                font-size: 12px !important;
+            }
+
+            .hero {
+                padding: 100px 16px 60px;
+                min-height: 70vh;
+            }
+
+            .hero h2 {
+                font-size: 28px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            section {
+                padding: 56px 0;
+            }
+
+            section h2 {
+                font-size: 26px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+                padding: 0 16px;
+                max-width: 500px;
+            }
+
+            .painel-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stat-card {
+                min-width: unset;
+                width: 100%;
+                max-width: 320px;
+                padding: 24px 32px;
+            }
+
+            .stat-number {
+                font-size: 36px;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .timeline-date {
+                min-width: unset;
+            }
+
+            .card-highlight {
+                margin: 0 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header nav a:not(.nav-painel) {
+                display: none;
+            }
+
+            header nav a.nav-painel {
+                padding: 6px 16px !important;
+                font-size: 13px !important;
+            }
+
+            header h1 {
+                font-size: 17px;
+            }
+
+            .hero h2 {
+                font-size: 24px;
+            }
+
+            .stat-number {
+                font-size: 30px;
+            }
+
+            .card {
+                padding: 24px 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- Cabeçalho -->
+    <!-- ===== CABEÇALHO ===== -->
     <header>
         <div class="container">
             <h1>SIPACEA IV</h1>
-
             <nav>
-                <a href="#inicio">Início</a>
+                <a href="#inicio" class="active">Início</a>
                 <a href="#documentos">Documentos</a>
                 <a href="#guia">Guia</a>
                 <a href="#assistentes">Assistentes</a>
                 <a href="#avisos">Avisos</a>
+                <a href="#painel" class="nav-painel">
+                    <i class="fas fa-chart-pie"></i> Painel
+                </a>
             </nav>
         </div>
     </header>
 
-    <!-- Hero -->
+    <!-- ===== HERO ===== -->
     <section class="hero" id="inicio">
         <div class="hero-content">
-            <h2>Portal da Segurança Operacional</h2>
-
+            <span class="hero-badge">
+                <i class="fas fa-shield-alt"></i> Segurança Operacional
+            </span>
+            <h2>Portal da <span>Segurança</span> Operacional</h2>
             <p>
                 Sistema de apoio às atividades da Segurança Operacional do SIPACEA IV.
+                Ferramentas integradas para gestão eficiente e segura.
             </p>
-
-            <a class="btn" href="#assistentes">
-                Acessar Portal
-            </a>
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <a class="btn btn-primary" href="#assistentes">
+                    <i class="fas fa-rocket"></i> Acessar Portal
+                </a>
+                <a class="btn btn-outline" href="#documentos">
+                    <i class="fas fa-book"></i> Documentos
+                </a>
+            </div>
         </div>
     </section>
 
-    <!-- Biblioteca -->
+    <!-- ===== BIBLIOTECA DE DOCUMENTOS ===== -->
     <section id="documentos">
-
-        <h2>Biblioteca de Documentos</h2>
+        <div class="container">
+            <h2>Biblioteca de Documentos</h2>
+            <p class="section-subtitle">Acesse os principais manuais e normativos da segurança operacional.</p>
+        </div>
 
         <div class="cards">
-
             <div class="card">
                 <i class="fas fa-book"></i>
                 <h3>ICA 81-1</h3>
-                <p>Ocorrências de Tráfego Aéreo.</p>
-
+                <p>Ocorrências de Tráfego Aéreo — diretrizes e procedimentos.</p>
                 <a class="btn-menu" href="Ica-81-1.pdf" target="_blank">
-                    Abrir
+                    <i class="fas fa-external-link-alt"></i> Abrir
                 </a>
             </div>
 
@@ -68,9 +662,8 @@
                 <i class="fas fa-file-alt"></i>
                 <h3>MCA 81-4</h3>
                 <p>Manual de Gerenciamento da Segurança Operacional do SISCEAB.</p>
-
                 <a class="btn-menu" href="mca-81-4.pdf" target="_blank">
-                    Abrir
+                    <i class="fas fa-external-link-alt"></i> Abrir
                 </a>
             </div>
 
@@ -78,172 +671,128 @@
                 <i class="fas fa-shield-alt"></i>
                 <h3>MGSO</h3>
                 <p>Manual de Gerenciamento da Segurança Operacional do CINDACTA IV.</p>
-
-                <a class="btn-menu"
-                    href="Manual-de-Gerenciamento-de-Segurança-Operacional.pdf"
-                    target="_blank">
-                    Abrir
+                <a class="btn-menu" href="Manual-de-Gerenciamento-de-Segurança-Operacional.pdf" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> Abrir
                 </a>
             </div>
 
             <div class="card">
                 <i class="fas fa-download"></i>
                 <h3>Downloads</h3>
-                <p>Modelos e formulários.</p>
-
+                <p>Modelos, formulários e materiais de apoio para download.</p>
                 <a class="btn-menu" href="documentos/">
-                    Abrir
+                    <i class="fas fa-folder-open"></i> Abrir
                 </a>
             </div>
-
         </div>
-
     </section>
 
-    <section id="painel">
+    <!-- ===== PAINEL OPERACIONAL ===== -->
+    <section id="painel" class="bg-light">
+        <div class="container">
+            <h2>Painel Operacional</h2>
+            <p class="section-subtitle">Acompanhe o resumo consolidado da segurança operacional.</p>
 
-<h2>Painel Operacional</h2>
+            <div class="painel-stats">
+                <div class="stat-card">
+                    <div class="stat-number">1.247</div>
+                    <div class="stat-label">Total de Ocorrências</div>
+                </div>
+            </div>
 
-<p>
-Resumo em tempo real dos principais indicadores da Segurança Operacional.
-</p>
+            <a href="painel.html" class="btn btn-primary">
+                <i class="fas fa-chart-pie"></i> Abrir Dashboard Completo
+            </a>
+        </div>
+    </section>
 
-<a href="painel.html" class="btn">
-<i class="fas fa-chart-pie"></i>
-Abrir Dashboard Completo
-</a>
-
-</section>
-
-    <!-- Guia -->
+    <!-- ===== GUIA ===== -->
     <section id="guia">
-
-        <h2>Guia</h2>
-
-        <div class="cards">
-
-            <div class="card">
-
-                <i class="fas fa-compass"></i>
-
-                <h3>Guia Interativo de Segurança Operacional</h3>
-
-                <p>
-                    Ferramenta dinâmica para orientar o efetivo operacional
-                    no gerenciamento da Segurança Operacional.
-                </p>
-
-                <a class="btn-menu" href="guia.html">
-                    Abrir
-                </a>
-
-            </div>
-
+        <div class="container">
+            <h2>Guia Interativo</h2>
+            <p class="section-subtitle">Ferramenta dinâmica para orientar o efetivo operacional no gerenciamento da segurança.</p>
         </div>
 
+        <div class="cards" style="max-width: 600px;">
+            <div class="card card-center">
+                <i class="fas fa-compass"></i>
+                <h3>Guia Interativo de Segurança Operacional</h3>
+                <p>Navegue pelo guia completo e tenha acesso a todas as orientações necessárias.</p>
+                <a class="btn-menu" href="guia.html">
+                    <i class="fas fa-play"></i> Iniciar Guia
+                </a>
+            </div>
+        </div>
     </section>
 
-    <!-- Assistentes -->
-    <section class="cinza" id="assistentes">
-
-        <h2>Assistentes de Reporte</h2>
+    <!-- ===== ASSISTENTES DE REPORTE ===== -->
+    <section class="bg-light" id="assistentes">
+        <div class="container">
+            <h2>Assistentes de Reporte</h2>
+            <p class="section-subtitle">Ferramentas inteligentes para elaboração de relatórios e notificações.</p>
+        </div>
 
         <div class="cards">
-
             <div class="card">
                 <i class="fas fa-bed"></i>
                 <h3>Fadiga</h3>
-
-                <p>
-                    Assistente para elaboração de reportes de fadiga.
-                </p>
-
+                <p>Assistente para elaboração de reportes de fadiga.</p>
                 <a class="btn-menu" href="paginas/fadiga.html">
-                    Abrir
+                    <i class="fas fa-arrow-right"></i> Abrir
                 </a>
             </div>
 
             <div class="card">
                 <i class="fas fa-file-signature"></i>
                 <h3>RELPREV</h3>
-
-                <p>
-                    Assistente para elaboração do RELPREV.
-                </p>
-
+                <p>Assistente para elaboração do RELPREV.</p>
                 <a class="btn-menu" href="paginas/relprev.html">
-                    Abrir
+                    <i class="fas fa-arrow-right"></i> Abrir
                 </a>
             </div>
 
             <div class="card">
                 <i class="fas fa-book-open"></i>
-
                 <h3>LHD</h3>
-
-                <p>
-                    Assistente para preenchimento do Livro Histórico Diário.
-                </p>
-
+                <p>Assistente para preenchimento do Livro Histórico Diário.</p>
                 <a class="btn-menu" href="paginas/lhd.html">
-                    Abrir
+                    <i class="fas fa-arrow-right"></i> Abrir
                 </a>
             </div>
 
             <div class="card">
                 <i class="fas fa-exclamation-triangle"></i>
-
                 <h3>FNO</h3>
-
-                <p>
-                    Assistente para registro da Ficha de Notificação de Ocorrência.
-                </p>
-
+                <p>Assistente para registro da Ficha de Notificação de Ocorrência.</p>
                 <a class="btn-menu" href="paginas/fno.html">
-                    Abrir
+                    <i class="fas fa-arrow-right"></i> Abrir
                 </a>
             </div>
-
         </div>
-
     </section>
 
-    <!-- Avisos -->
+    <!-- ===== AVISOS ===== -->
     <section id="avisos">
-
-        <h2>Avisos</h2>
-
-        <div class="card">
-
-            <i class="fas fa-bullhorn"></i>
-
-            <div class="timeline">
-
-                <div>
-
-                    <h3>Atualizações</h3>
-
-                    <p>
-                        Espaço destinado às últimas publicações.<br>
-                        O portal encontra-se em desenvolvimento e receberá
-                        novas funcionalidades em breve.
-                    </p>
-
+        <div class="container">
+            <h2>Avisos e Atualizações</h2>
+            <p class="section-subtitle">Fique por dentro das últimas publicações e novidades do portal.</p>
+                    </div>
+                    <div style="margin-top: 12px; color: var(--text-muted); font-size: 14px;">
+                        <i class="fas fa-info-circle"></i> O portal encontra-se em desenvolvimento contínuo.
+                    </div>
                 </div>
-
             </div>
-
         </div>
-
     </section>
 
-    <!-- Rodapé -->
+    <!-- ===== RODAPÉ ===== -->
     <footer>
-
-        <p>
-            Elaborado pela SIPACEA IV © 2026
-        </p>
-
+        <div class="container">
+            <p>
+                <i class="fas fa-shield-alt"></i>
+                Elaborado pela SIPACEA IV © 2026
+            </p>
+        </div>
     </footer>
 
 </body>
